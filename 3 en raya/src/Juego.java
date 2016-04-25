@@ -18,6 +18,10 @@ public class Juego {
 			JOptionPane.showMessageDialog(null, "El jugador "+turno+" ha ganado!");
 			System.exit(0);
 		}
+		if(tableroLleno()) {
+			JOptionPane.showMessageDialog(null, "Empate!");
+			System.exit(0);
+		}
 		turno++;
 		if(turno > 2) {
 			turno = 1;
@@ -52,6 +56,16 @@ public class Juego {
 			return true;
 		}
 		return false;
+	}
+	private boolean tableroLleno() {
+		for(int linea=0; linea<3; linea++) {
+			for(int col=0; col<3; col++) {
+				if(tablero[linea][col] == 0) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public int[][] getTablero() { return tablero; }
