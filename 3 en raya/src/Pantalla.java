@@ -44,6 +44,19 @@ public class Pantalla extends JFrame implements ActionListener {
 		setSize(600, 600);
 		setVisible(true);
 	}
+	
+	public void referscarPantalla() {
+		for(int linea=0; linea<3; linea++) {
+			for(int col=0; col<3; col++) {
+				int n = jg.getTablero()[linea][col];
+				botones[linea][col].setText(Casillas.CASILLA[n]);
+				botones[linea][col].setEnabled(false);
+				if(n == 0) {
+					botones[linea][col].setEnabled(true);
+				}
+			}
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

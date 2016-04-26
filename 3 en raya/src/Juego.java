@@ -3,14 +3,27 @@ import javax.swing.JOptionPane;
 public class Juego {
 	private int[][] tablero;
 	private int turno;
+	private int jugadores;
+	private IA ia;
+	private Pantalla pantalla;
 	
-	Juego() {
+	Juego(int jugadores) {
+		this.jugadores = jugadores;
+		if(jugadores < 1 || jugadores > 2) {
+			JOptionPane.showMessageDialog(null, "La cantidad de jugadores debe ser 1 o 2");
+			System.exit(0);
+		}
+		
+		if(jugadores == 1) {
+			ia = new IA(this);
+		}
+		
 		tablero = new int[3][3];
 		turno = 1;
 	}
 	
 	public void jugar() {
-		new Pantalla(this);
+		pantalla = new Pantalla(this);
 	}
 	
 	public void siguienteTurno() {
@@ -22,32 +35,34 @@ public class Juego {
 			JOptionPane.showMessageDialog(null, "Empate!");
 			System.exit(0);
 		}
-		turno++;
-		if(turno > 2) {
-			turno = 1;
+		turno = turno%2 + 1;
+		if(jugadores == 1 && turno == 2) {
+			ia.hacerTurno();
 		}
 	}
 	
 	private boolean haGanado() {
 		for(int linea=0; linea<3; linea++) {
+			int contador = 0;
 			for(int col=0; col<3; col++) {
-				if(tablero[linea][col] != turno) {
-					break;
-				}
-				if(col == 2) {
-					return true;
-				}
+				if(tablero[linea][col] == turno) {
+					contador++;
+				}				
 			}	
+			if(contador == 3) {
+				return true;
+			}
 		}	
 		for(int col=0; col<3; col++) {
-			for(int linea=0; linea<3; linea++) {
-				if(tablero[linea][col] != turno) {
-					break;
-				}
-				if(linea == 2) {
-					return true;
+			int contador = 0;
+			for(int linea=0; linea<3; linea++) {				
+				if(tablero[linea][col] == turno) {
+					contador++;
 				}
 			}	
+			if(contador == 3) {
+				return true;
+			}
 		}
 		if(tablero[0][0] == turno && tablero[1][1] == turno && tablero[2][2] == turno) {
 			return true;
@@ -70,4 +85,5 @@ public class Juego {
 	
 	public int[][] getTablero() { return tablero; }
 	public int getTurno() { return turno; }
+	public Pantalla getPantalla() { return pantalla; }
 }

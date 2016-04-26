@@ -1,7 +1,8 @@
 
 public class Main {
 	public static void main(String[] args) {
-		Juego jg = new Juego();
+		int jugadores = 1;
+		Juego jg = new Juego(jugadores);
 		jg.jugar();
 	}	
 }
