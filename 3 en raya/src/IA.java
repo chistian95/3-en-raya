@@ -19,6 +19,10 @@ public class IA {
 	}
 	
 	private boolean defender() {
+		if(jg.getTablero()[1][1] == 0 && !hayEsquinas()) {
+			jg.getTablero()[1][1] = jg.getTurno();
+			return true;
+		}
 		for(int linea=0; linea<3; linea++) {
 			int contador = 0;
 			for(int col=0; col<3; col++) {
@@ -66,7 +70,7 @@ public class IA {
 			System.out.println("colocar victoria");
 			return;
 		}
-		if(jg.getTablero()[1][1] == 0) {
+		if(jg.getTablero()[1][1] == 0 && !hayEsquinas()) {
 			jg.getTablero()[1][1] = jg.getTurno();
 			System.out.println("colocar medio");
 			return;
@@ -77,6 +81,22 @@ public class IA {
 		}
 		colocarRandom();
 		System.out.println("colocar random");
+	}
+	
+	private boolean hayEsquinas() {
+		if(jg.getTablero()[0][0] != 0 && jg.getTablero()[0][0] != jg.getTurno()) {
+			return true;
+		}
+		if(jg.getTablero()[0][2] != 0 && jg.getTablero()[0][0] != jg.getTurno()) {
+			return true;
+		}
+		if(jg.getTablero()[2][0] != 0 && jg.getTablero()[0][0] != jg.getTurno()) {
+			return true;
+		}
+		if(jg.getTablero()[2][2] != 0 && jg.getTablero()[0][0] != jg.getTurno()) {
+			return true;
+		}
+		return false;
 	}
 	
 	private void colocarRandom() {
@@ -156,6 +176,9 @@ public class IA {
 	}
 	
 	private boolean colocarEsquinas() {
+		if(estrategiaEsquinas()) {
+			return true;
+		}
 		List<Integer> casillas = new ArrayList<Integer>();
 		if(jg.getTablero()[0][0] == 0) {
 			casillas.add(0);
@@ -188,6 +211,11 @@ public class IA {
 			}
 			return true;
 		}
+		return false;
+	}
+	
+	private boolean estrategiaEsquinas() {
+		
 		return false;
 	}
 	

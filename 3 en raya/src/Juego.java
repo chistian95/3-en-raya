@@ -52,7 +52,7 @@ public class Juego {
 			if(contador == 3) {
 				return true;
 			}
-		}	
+		}
 		for(int col=0; col<3; col++) {
 			int contador = 0;
 			for(int linea=0; linea<3; linea++) {				
