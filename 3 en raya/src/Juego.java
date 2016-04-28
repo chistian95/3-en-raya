@@ -6,6 +6,7 @@ public class Juego {
 	private int jugadores;
 	private IA ia;
 	private Pantalla pantalla;
+	private boolean verbose;
 	
 	Juego(int jugadores) {
 		this.jugadores = jugadores;
@@ -20,6 +21,8 @@ public class Juego {
 		
 		tablero = new int[3][3];
 		turno = 1;
+		
+		verbose = true;
 	}
 	
 	public void jugar() {
@@ -86,4 +89,5 @@ public class Juego {
 	public int[][] getTablero() { return tablero; }
 	public int getTurno() { return turno; }
 	public Pantalla getPantalla() { return pantalla; }
+	public boolean getVerbose() { return verbose; }
 }

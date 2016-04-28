@@ -9,14 +9,20 @@ public class IA {
 	}
 	
 	public void hacerTurno() {
-		System.out.println("\nturno ia");
+		if(jg.getVerbose()) {
+			System.out.println("\nturno ia");
+		}		
 		if(!colocarVictoria() && !defender()) {
-			System.out.println("atacar");
+			if(jg.getVerbose()) {
+				System.out.println("atacar");
+			}				
 			atacar();
 		}			
 		jg.getPantalla().referscarPantalla();
 		jg.siguienteTurno();
-		System.out.println("\n");
+		if(jg.getVerbose()) {
+			System.out.println("\n");
+		}
 	}
 	
 	private boolean defender() {
@@ -29,7 +35,9 @@ public class IA {
 			}
 			if(contador == 2) {
 				if(colocarEnLinea(linea)) {
-					System.out.println("colocar en linea "+linea);
+					if(jg.getVerbose()) {
+						System.out.println("colocar en linea "+linea);
+					}
 					return true;
 				}				
 			}
@@ -44,23 +52,31 @@ public class IA {
 			}
 			if(contador == 2) {
 				if(colocarEnColumna(col)) {
-					System.out.println("colocar en columna "+col);
+					if(jg.getVerbose()) {
+						System.out.println("colocar en columna "+col);
+					}
 					return true;
 				}				
 			}
 		}
 		
 		if(diagonalIzq()) {
-			System.out.println("colocar en diagonal izq");
+			if(jg.getVerbose()) {
+				System.out.println("colocar en diagonal izq");
+			}
 			return true;
 		}
 		
 		if(diagonalDrc()) {
-			System.out.println("colocar en diagonal drc");
+			if(jg.getVerbose()) {
+				System.out.println("colocar en diagonal drc");
+			}
 			return true;
 		}
 		if(jg.getTablero()[1][1] == 0 && !hayEsquinas()) {
-			System.out.println("colocar en centro");
+			if(jg.getVerbose()) {
+				System.out.println("colocar en centro");
+			}
 			jg.getTablero()[1][1] = jg.getTurno();
 			return true;
 		}
@@ -70,15 +86,21 @@ public class IA {
 	private void atacar() {
 		if(jg.getTablero()[1][1] == 0) {
 			jg.getTablero()[1][1] = jg.getTurno();
-			System.out.println("colocar medio");
+			if(jg.getVerbose()) {
+				System.out.println("colocar medio");
+			}
 			return;
 		}
 		if(colocarEsquinas()) {
-			System.out.println("colocar esquinas");
+			if(jg.getVerbose()) {
+				System.out.println("colocar esquinas");
+			}
 			return;
 		}
 		colocarRandom();
-		System.out.println("colocar random");
+		if(jg.getVerbose()) {
+			System.out.println("colocar random");
+		}
 	}
 	
 	private boolean hayEsquinas() {
@@ -175,15 +197,21 @@ public class IA {
 	
 	private boolean colocarEsquinas() {
 		if(esquinasContrarias()) {
-			System.out.println("esquinas contrarias");
+			if(jg.getVerbose()) {
+				System.out.println("esquinas contrarias");
+			}
 			return true;
 		}
 		if(estrategiaEsquinas()) {
-			System.out.println("estrategia esquinas");
+			if(jg.getVerbose()) {
+				System.out.println("estrategia esquinas");
+			}
 			return true;
 		}
 		if(esquinaPrioridad()) {
-			System.out.println("esquina prioridad");
+			if(jg.getVerbose()) {
+				System.out.println("esquina prioridad");
+			}
 			return true;
 		}
 		List<Integer> casillas = new ArrayList<Integer>();
