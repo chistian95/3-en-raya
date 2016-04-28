@@ -91,6 +91,12 @@ public class IA {
 			}
 			return;
 		}
+		if(sinEsquinas()) {
+			if(jg.getVerbose()) {
+				System.out.println("sin esquinas");
+			}
+			return;
+		}
 		if(colocarEsquinas()) {
 			if(jg.getVerbose()) {
 				System.out.println("colocar esquinas");
@@ -191,6 +197,39 @@ public class IA {
 			if(diagonalDrc()) {
 				return true;
 			}			
+		}
+		return false;
+	}
+	
+	private boolean sinEsquinas() {
+		if(jg.getTablero()[0][1] != 0 && jg.getTablero()[0][1] != jg.getTurno()) {
+			if(jg.getTablero()[1][0] != 0 && jg.getTablero()[1][0] != jg.getTurno()) {
+				if(jg.getTablero()[0][0] == 0) {
+					jg.getTablero()[0][0] = jg.getTurno();
+					return true;
+				}
+			}
+			if(jg.getTablero()[1][2] != 0 && jg.getTablero()[1][2] != jg.getTurno()) {
+				if(jg.getTablero()[0][2] == 0) {
+					jg.getTablero()[0][2] = jg.getTurno();
+					return true;
+				}
+			}
+		}
+		
+		if(jg.getTablero()[2][1] != 0 && jg.getTablero()[2][1] != jg.getTurno()) {
+			if(jg.getTablero()[1][0] != 0 && jg.getTablero()[1][0] != jg.getTurno()) {
+				if(jg.getTablero()[2][0] == 0) {
+					jg.getTablero()[2][0] = jg.getTurno();
+					return true;
+				}
+			}
+			if(jg.getTablero()[1][2] != 0 && jg.getTablero()[1][2] != jg.getTurno()) {
+				if(jg.getTablero()[2][2] == 0) {
+					jg.getTablero()[2][2] = jg.getTurno();
+					return true;
+				}
+			}
 		}
 		return false;
 	}
