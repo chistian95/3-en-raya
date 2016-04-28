@@ -3,33 +3,32 @@ import javax.swing.JOptionPane;
 public class Juego {
 	private int[][] tablero;
 	private int turno;
-	private int jugadores;
+	private int modo;
 	private IA ia;
+	private IA ia2;
 	private Pantalla pantalla;
 	private boolean verbose;
 	
-	Juego(int jugadores) {
-		this.jugadores = jugadores;
-		if(jugadores < 1 || jugadores > 2) {
-			JOptionPane.showMessageDialog(null, "La cantidad de jugadores debe ser 1 o 2");
-			System.exit(0);
-		}
-		
-		if(jugadores == 1) {
-			ia = new IA(this);
-		}
+	Juego(int modo) {
+		this.modo = modo;	
 		
 		tablero = new int[3][3];
 		turno = 1;
 		
-		verbose = true;
-	}
-	
-	public void jugar() {
+		verbose = false;
+		
 		pantalla = new Pantalla(this);
+		
+		if(modo != Modos.JvJ) {
+			ia = new IA(this);
+		}
+		if(modo == Modos.IAvIA) {
+			ia2 = new IA(this);
+			ia2.hacerTurno();
+		}
 	}
 	
-	public void siguienteTurno() {
+	public void siguienteTurno() {	
 		if(haGanado()) {
 			JOptionPane.showMessageDialog(null, "El jugador "+turno+" ha ganado!");
 			System.exit(0);
@@ -39,8 +38,11 @@ public class Juego {
 			System.exit(0);
 		}
 		turno = turno%2 + 1;
-		if(jugadores == 1 && turno == 2) {
+		if(modo != Modos.JvJ && turno == 2) {
 			ia.hacerTurno();
+		}
+		if(modo == Modos.IAvIA && turno == 1) {
+			ia2.hacerTurno();
 		}
 	}
 	
@@ -89,5 +91,6 @@ public class Juego {
 	public int[][] getTablero() { return tablero; }
 	public int getTurno() { return turno; }
 	public Pantalla getPantalla() { return pantalla; }
+	public int getModo() { return modo; }
 	public boolean getVerbose() { return verbose; }
 }

@@ -10,7 +10,7 @@ public class IA {
 	
 	public void hacerTurno() {
 		if(jg.getVerbose()) {
-			System.out.println("\nturno ia");
+			System.out.println("\nturno ia ("+jg.getTurno()+")");
 		}		
 		if(!colocarVictoria() && !defender()) {
 			if(jg.getVerbose()) {

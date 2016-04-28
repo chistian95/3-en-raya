@@ -30,7 +30,9 @@ public class Pantalla extends JFrame implements ActionListener {
 				int n = jg.getTablero()[linea][col];
 				
 				botones[linea][col].setText(Casillas.CASILLA[n]);
-				botones[linea][col].setEnabled(true);
+				if(jg.getModo() == Modos.IAvIA) {
+					botones[linea][col].setEnabled(false);
+				}				
 				botones[linea][col].setActionCommand(linea+", "+col);
 				botones[linea][col].setHorizontalAlignment(JTextField.CENTER);
 				botones[linea][col].setFont(fuente);
@@ -51,7 +53,7 @@ public class Pantalla extends JFrame implements ActionListener {
 				int n = jg.getTablero()[linea][col];
 				botones[linea][col].setText(Casillas.CASILLA[n]);
 				botones[linea][col].setEnabled(false);
-				if(n == 0) {
+				if(n == 0 && jg.getModo() != Modos.IAvIA) {
 					botones[linea][col].setEnabled(true);
 				}
 			}
