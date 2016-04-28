@@ -443,84 +443,56 @@ public class IA {
 	
 	private boolean diagonalIzq() {
 		List<Integer> casillas = new ArrayList<Integer>();
-		if(jg.getTablero()[0][0] != 0 && jg.getTablero()[0][0] != jg.getTurno()) {
+		if(jg.getTablero()[0][0] == jg.getTurno()) {
 			casillas.add(0);
 		}
-		if(jg.getTablero()[1][1] != 0 && jg.getTablero()[1][1] != jg.getTurno()) {
+		if(jg.getTablero()[1][1] == jg.getTurno()) {
 			casillas.add(1);
 		}
-		if(jg.getTablero()[2][2] != 0 && jg.getTablero()[2][2] != jg.getTurno()) {
+		if(jg.getTablero()[2][2] == jg.getTurno()) {
 			casillas.add(2);
 		}
 		if(casillas.size() == 2) {
-			casillas = new ArrayList<Integer>();
 			if(jg.getTablero()[0][0] == 0) {
-				casillas.add(0);
+				jg.getTablero()[0][0] = jg.getTurno();
+				return true;
 			}
 			if(jg.getTablero()[1][1] == 0) {
-				casillas.add(1);
+				jg.getTablero()[1][1] = jg.getTurno();
+				return true;
 			}
 			if(jg.getTablero()[2][2] == 0) {
-				casillas.add(2);
-			}
-			if(casillas.size() > 0) {
-				int rnd = (int) (Math.random()*casillas.size());
-				int casilla = casillas.get(rnd);
-				switch(casilla) {
-				case 0:
-					jg.getTablero()[0][0] = jg.getTurno();
-					break;
-				case 1:
-					jg.getTablero()[1][1] = jg.getTurno();
-					break;
-				case 2:
-					jg.getTablero()[2][2] = jg.getTurno();
-					break;
-				}
+				jg.getTablero()[2][2] = jg.getTurno();
 				return true;
-			}			
+			}		
 		}
 		return false;
 	}
 
 	private boolean diagonalDrc() {
 		List<Integer> casillas = new ArrayList<Integer>();
-		if(jg.getTablero()[0][2] != 0 && jg.getTablero()[0][2] != jg.getTurno()) {
+		if(jg.getTablero()[0][2] == jg.getTurno()) {
 			casillas.add(0);
 		}
-		if(jg.getTablero()[1][1] != 0 && jg.getTablero()[1][1] != jg.getTurno()) {
+		if(jg.getTablero()[1][1] == jg.getTurno()) {
 			casillas.add(1);
 		}
-		if(jg.getTablero()[2][0] != 0 && jg.getTablero()[2][0] != jg.getTurno()) {
+		if(jg.getTablero()[2][0] == jg.getTurno()) {
 			casillas.add(2);
 		}
 		if(casillas.size() == 2) {
-			casillas = new ArrayList<Integer>();
 			if(jg.getTablero()[0][2] == 0) {
-				casillas.add(0);
+				jg.getTablero()[0][2] = jg.getTurno();
+				return true;
 			}
 			if(jg.getTablero()[1][1] == 0) {
-				casillas.add(1);
+				jg.getTablero()[1][1] = jg.getTurno();
+				return true;
 			}
 			if(jg.getTablero()[2][0] == 0) {
-				casillas.add(2);
-			}
-			if(casillas.size() > 0) {
-				int rnd = (int) (Math.random()*casillas.size());
-				int casilla = casillas.get(rnd);
-				switch(casilla) {
-				case 0:
-					jg.getTablero()[0][2] = jg.getTurno();
-					break;
-				case 1:
-					jg.getTablero()[1][1] = jg.getTurno();
-					break;
-				case 2:
-					jg.getTablero()[2][0] = jg.getTurno();
-					break;
-				}
+				jg.getTablero()[2][0] = jg.getTurno();
 				return true;
-			}			
+			}
 		}
 		return false;
 	}
