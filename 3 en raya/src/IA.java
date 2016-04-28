@@ -9,20 +9,17 @@ public class IA {
 	}
 	
 	public void hacerTurno() {
-		System.out.println("turno ia");
-		if(!defender()) {
+		System.out.println("\nturno ia");
+		if(!colocarVictoria() && !defender()) {
 			System.out.println("atacar");
 			atacar();
 		}			
 		jg.getPantalla().referscarPantalla();
 		jg.siguienteTurno();
+		System.out.println("\n");
 	}
 	
 	private boolean defender() {
-		if(jg.getTablero()[1][1] == 0 && !hayEsquinas()) {
-			jg.getTablero()[1][1] = jg.getTurno();
-			return true;
-		}
 		for(int linea=0; linea<3; linea++) {
 			int contador = 0;
 			for(int col=0; col<3; col++) {
@@ -62,15 +59,16 @@ public class IA {
 			System.out.println("colocar en diagonal drc");
 			return true;
 		}
+		if(jg.getTablero()[1][1] == 0 && !hayEsquinas()) {
+			System.out.println("colocar en centro");
+			jg.getTablero()[1][1] = jg.getTurno();
+			return true;
+		}
 		return false;
 	}
 	
 	private void atacar() {
-		if(colocarVictoria()) {
-			System.out.println("colocar victoria");
-			return;
-		}
-		if(jg.getTablero()[1][1] == 0 && !hayEsquinas()) {
+		if(jg.getTablero()[1][1] == 0) {
 			jg.getTablero()[1][1] = jg.getTurno();
 			System.out.println("colocar medio");
 			return;
@@ -176,7 +174,16 @@ public class IA {
 	}
 	
 	private boolean colocarEsquinas() {
+		if(esquinasContrarias()) {
+			System.out.println("esquinas contrarias");
+			return true;
+		}
 		if(estrategiaEsquinas()) {
+			System.out.println("estrategia esquinas");
+			return true;
+		}
+		if(esquinaPrioridad()) {
+			System.out.println("esquina prioridad");
 			return true;
 		}
 		List<Integer> casillas = new ArrayList<Integer>();
@@ -215,7 +222,99 @@ public class IA {
 	}
 	
 	private boolean estrategiaEsquinas() {
-		
+		if(jg.getTablero()[0][0] != 0 && jg.getTablero()[0][0] != jg.getTurno()) {
+			if(jg.getTablero()[2][2] == 0) {
+				jg.getTablero()[2][2] = jg.getTurno();
+				return true;
+			}
+		}
+		if(jg.getTablero()[2][2] != 0 && jg.getTablero()[2][2] != jg.getTurno()) {
+			if(jg.getTablero()[0][0] == 0) {
+				jg.getTablero()[0][0] = jg.getTurno();
+				return true;
+			}
+		}
+		if(jg.getTablero()[0][2] != 0 && jg.getTablero()[0][2] != jg.getTurno()) {
+			if(jg.getTablero()[2][0] == 0) {
+				jg.getTablero()[2][0] = jg.getTurno();
+				return true;
+			}
+		}
+		if(jg.getTablero()[2][0] != 0 && jg.getTablero()[2][0] != jg.getTurno()) {
+			if(jg.getTablero()[0][2] == 0) {
+				jg.getTablero()[0][2] = jg.getTurno();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean esquinasContrarias() {
+		if(jg.getTablero()[1][1] != jg.getTurno()) {
+			return false;
+		}
+		if(jg.getTablero()[0][0] != 0 && jg.getTablero()[0][0] != jg.getTurno()) {
+			if(jg.getTablero()[2][2] != 0 && jg.getTablero()[2][2] != jg.getTurno()) {
+				if(colocarEnLinea(1)) {
+					return true;
+				}
+				if(colocarEnColumna(1)) {
+					return true;
+				}
+			}
+		}
+		if(jg.getTablero()[0][2] != 0 && jg.getTablero()[0][2] != jg.getTurno()) {
+			if(jg.getTablero()[2][0] != 0 && jg.getTablero()[2][0] != jg.getTurno()) {
+				if(colocarEnLinea(1)) {
+					return true;
+				}
+				if(colocarEnColumna(1)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean esquinaPrioridad() {
+		for(int linea=0; linea<3; linea++) {
+			int blancos = 0;
+			int mios = 0;
+			for(int col=0; col<3; col++) {
+				if(jg.getTablero()[linea][col] == 0) {
+					blancos++;
+					continue;
+				}
+				if(jg.getTablero()[linea][col] == jg.getTurno()) {
+					mios++;
+					continue;
+				}
+				break;
+			}
+			if(blancos == 2 && mios == 1) {
+				return colocarEnEsquinaLinea(linea);
+			}
+			linea++;
+		}
+		for(int col=0; col<3; col++) {
+			int blancos = 0;
+			int mios = 0;
+			for(int linea=0; linea<3; linea++) {
+				if(jg.getTablero()[linea][col] == 0) {
+					blancos++;
+					continue;
+				}
+				if(jg.getTablero()[linea][col] == jg.getTurno()) {
+					mios++;
+					continue;
+				}
+				break;
+			}
+			if(blancos == 2 && mios == 1) {
+				return colocarEnEsquinaColumna(col);
+			}
+			col++;
+		}
 		return false;
 	}
 	
@@ -249,6 +348,30 @@ public class IA {
 		int linea = casillas.get(rnd);
 		jg.getTablero()[linea][col] = jg.getTurno();
 		return true;
+	}
+	
+	private boolean colocarEnEsquinaLinea(int linea) {
+		if(jg.getTablero()[linea][0] == 0) {
+			jg.getTablero()[linea][0] = jg.getTurno();
+			return true;
+		}
+		if(jg.getTablero()[linea][2] == 0) {
+			jg.getTablero()[linea][2] = jg.getTurno();
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean colocarEnEsquinaColumna(int col) {
+		if(jg.getTablero()[0][col] == 0) {
+			jg.getTablero()[0][col] = jg.getTurno();
+			return true;
+		}
+		if(jg.getTablero()[2][col] == 0) {
+			jg.getTablero()[2][col] = jg.getTurno();
+			return true;
+		}
+		return false;
 	}
 	
 	private boolean diagonalIzq() {
