@@ -1,4 +1,8 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class Juego {
 	private int[][] tablero;
@@ -38,11 +42,21 @@ public class Juego {
 			System.exit(0);
 		}
 		turno = turno%2 + 1;
-		if(modo != Modos.JvJ && turno == 2) {
-			ia.hacerTurno();
+		if(modo == Modos.IAvIA) {
+			Timer t = new Timer(500, new ActionListener() {
+			    public void actionPerformed(ActionEvent evt) {		
+					if(turno == 2) {
+						ia.hacerTurno();
+					} else {
+						ia2.hacerTurno();
+					}
+			    }
+			});
+			t.setRepeats(false);
+			t.start();
 		}
-		if(modo == Modos.IAvIA && turno == 1) {
-			ia2.hacerTurno();
+		if(modo == Modos.JvIA && turno == 2) {
+			ia.hacerTurno();
 		}
 	}
 	
